@@ -9,6 +9,10 @@ pub struct Cli {
     /// Don't execute backup command (dry-run)
     #[arg(short, long)]
     pub dry_run: bool,
+
+    /// Just output the command without executing
+    #[arg(short, long)]
+    pub output_command: bool,
 }
 
 #[derive(Serialize, Deserialize, Default, Debug)]

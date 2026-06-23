@@ -10,11 +10,16 @@ fn main() -> Result<()> {
     let config: BackupConfig = confy::load("ld-backup", None)?;
 
     for backup in &config.backups {
+        let args = build_args(backup, cli.dry_run);
+
+        if cli.output_command {
+            println!("rsync {}", args.join(" "));
+            continue;
+        }
+
         if !std::fs::exists(&backup.target_folder)? {
             return Err(anyhow::anyhow!("Target folder does not exist"));
         }
-
-        let args = build_args(backup, cli.dry_run);
 
         let output = std::process::Command::new("rsync")
             .args(&args)
